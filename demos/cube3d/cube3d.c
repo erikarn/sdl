@@ -9,6 +9,7 @@
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <sys/time.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -274,6 +275,7 @@ static void setup_opengl( int width, int height )
 
 int main( int argc, char* argv[] )
 {
+    struct timeval tv;
     /* Information about the current video settings. */
     const SDL_VideoInfo* info = NULL;
     /* Dimensions of our window. */
@@ -374,8 +376,10 @@ int main( int argc, char* argv[] )
      * Now we want to begin our normal app process--
      * an event loop with a lot of redrawing.
      */
-    while( 1 ) {
+    while (1) {
         /* Process incoming events. */
+	(void) gettimeofday(&tv, NULL);
+	printf("%lld.%06lld: loop\n", (long long) tv.tv_sec, (long long) tv.tv_usec);
         process_events( );
         /* Draw the screen. */
         draw_screen( );
